@@ -21,21 +21,6 @@ class MakerSpacePresenceAgent(object):
         # init configuration
         self.configuration = self.read_configuration("makerspace-presence.json")
 
-        # try to open activity file and read content
-        # try:
-        #    if os.path.isfile(self.configuration["activity_file"]):
-        #        activity_file = open(self.configuration["activity_file"])
-
-        #        for line in activity_file:
-        #            activity = activity_file.readline()
-                    
-        #        activity_file.close()
-        #    else:
-        #        activity = None
-                
-        #except IOError as e:
-        #    self.log_message(e)
-
         # get mac addresses
         mac_addresses = self.request_data(
             self.configuration["api_url"],
@@ -45,9 +30,11 @@ class MakerSpacePresenceAgent(object):
             self.configuration["known_file"]
         )
 
+        # prepare data for activity file
         current_time = int(time.mktime(time.localtime()))
         user_amount = len(mac_addresses)
 
+        # open activity file
         activity_filename = self.configuration["activity_file"]
 
         if os.path.isfile(activity_filename):
@@ -55,8 +42,9 @@ class MakerSpacePresenceAgent(object):
                 activity_file = open(activity_filename, "a")
                 activity_file.write(";".join((current_time,user_amount)))
                 activity_file.close()
+            except IOError as e:
+                self.log_message(e)
                                     
-
     
     def read_configuration(self, configuration):
 
