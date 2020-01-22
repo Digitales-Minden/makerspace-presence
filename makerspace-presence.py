@@ -60,7 +60,7 @@ class MakerSpacePresenceAgent(object):
         return j
 
     
-    def log_message(message):
+    def log_message(self, message):
 
         local_time_string = time.strftime("%d.%n.%Y %H:%M:%S", time.localtime())
         print(": ".join(local_time_string, message))
@@ -69,28 +69,28 @@ class MakerSpacePresenceAgent(object):
 
 
 # get local time (source: pi)
-current_time = time.strftime("%H:%M", time.localtime())
+#current_time = time.strftime("%H:%M", time.localtime())
 
 
-file_last_status = open("/home/pi/msm-status/last_status.txt", "r")
-last_status = int(file_last_status.read())
-file_last_status.close()
+#file_last_status = open("/home/pi/msm-status/last_status.txt", "r")
+#last_status = int(file_last_status.read())
+#file_last_status.close()
 
-file_last_date = open("/home/pi/msm-status/date.txt", "r")
-last_dateseen = str(file_last_date.read())
-file_last_date.close()
+#file_last_date = open("/home/pi/msm-status/date.txt", "r")
+#last_dateseen = str(file_last_date.read())
+#file_last_date.close()
  
-if last_dateseen != str(date):
+#if last_dateseen != str(date):
     #clear csv on new day
-    print("ungleiches Datum")
+#    print("ungleiches Datum")
     # What the...?
-    activity = open("/home/pi/msm-status/activity.csv", "w")
-    activity.write("")
-else:
-    print("continue")
+#    activity = open("/home/pi/msm-status/activity.csv", "w")
+#    activity.write("")
+#else:
+#    print("continue")
  
  
-print("letzte Anzahl gefundener Geraete:  " + str(last_status))
+#print("letzte Anzahl gefundener Geraete:  " + str(last_status))
 
 
     def request_data(self, url, api_key, api_secret, privacy_file, known_file):
@@ -241,13 +241,13 @@ html.close()
  
 ## Write status
  
-status = open("/home/pi/msm-status/last_status.txt", "w")
-status.write(str(len(list_found_macs)))
-status.close()
+#status = open("/home/pi/msm-status/last_status.txt", "w")
+#status.write(str(len(list_found_macs)))
+#status.close()
  
-last_date = open("/home/pi/msm-status/date.txt", "w")
-last_date.write(str(date))
-last_date.close()
+#last_date = open("/home/pi/msm-status/date.txt", "w")
+#last_date.write(str(date))
+#last_date.close()
 
 
 if __name__ == "__main__":
