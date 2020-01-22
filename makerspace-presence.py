@@ -3,12 +3,9 @@
 import json
 import requests
 import time
-from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
-import random
 import string
-import urllib.request
 import shutil
 import os
  
@@ -251,3 +248,7 @@ status.close()
 last_date = open("/home/pi/msm-status/date.txt", "w")
 last_date.write(str(date))
 last_date.close()
+
+
+if __name__ == "__main__":
+    mspa = MakerSpacePresenceAgent()
