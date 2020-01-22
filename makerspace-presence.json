@@ -1,6 +1,5 @@
 {
-    "status_file": "/home/...",
-    "date_file": "/home",
+    "activity_file": "/home/....",
     "api_key": "XXXX",
     "api_secret": "XXXX",
     "api_url": "http://...",
