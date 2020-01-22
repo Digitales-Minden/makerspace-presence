@@ -1,0 +1,9 @@
+{
+    "status_file": "/home/...",
+    "date_file": "/home",
+    "api_key": "XXXX",
+    "api_secret": "XXXX",
+    "api_url": "http://...",
+    "privacy_file": "/home/...",
+    "known_file": "/home/"
+}
