@@ -238,17 +238,6 @@ html.write("<br>" + '\n')
 html.write('<img src="graph.png"')
 html.write(html_str_bottom)
 html.close()
- 
-## Write status
- 
-#status = open("/home/pi/msm-status/last_status.txt", "w")
-#status.write(str(len(list_found_macs)))
-#status.close()
- 
-#last_date = open("/home/pi/msm-status/date.txt", "w")
-#last_date.write(str(date))
-#last_date.close()
-
 
 if __name__ == "__main__":
     mspa = MakerSpacePresenceAgent()
