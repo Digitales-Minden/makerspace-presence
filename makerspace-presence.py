@@ -11,9 +11,10 @@ import os
  
 class MakerSpacePresenceAgent(object):
 
+    # __init__:
+    # contructor and main routine
+    
     def __init__(self):
-
-        requests.packages.urllib3.disable_warnings()
         
         # init configuration
         self.configuration = self.read_configuration("makerspace-presence.json")
@@ -55,6 +56,10 @@ class MakerSpacePresenceAgent(object):
             activity_file.write(str(current_time) + ";" + str(user_amount) + "\n")
             activity_file.close()
                                                                         
+
+    # read_configuration:
+    # opens a file with json content,
+    # containing information about application parameters
     
     def read_configuration(self, configuration):
 
@@ -72,6 +77,9 @@ class MakerSpacePresenceAgent(object):
 
         return j
 
+    # log_message:
+    # prints a message with current time
+    # to be more readable in journalctl
     
     def log_message(self, message):
 
@@ -79,32 +87,9 @@ class MakerSpacePresenceAgent(object):
         print(": ".join(local_time_string, message))
 
 
-
-
-# get local time (source: pi)
-#current_time = time.strftime("%H:%M", time.localtime())
-
-
-#file_last_status = open("/home/pi/msm-status/last_status.txt", "r")
-#last_status = int(file_last_status.read())
-#file_last_status.close()
-
-#file_last_date = open("/home/pi/msm-status/date.txt", "r")
-#last_dateseen = str(file_last_date.read())
-#file_last_date.close()
- 
-#if last_dateseen != str(date):
-    #clear csv on new day
-#    print("ungleiches Datum")
-    # What the...?
-#    activity = open("/home/pi/msm-status/activity.csv", "w")
-#    activity.write("")
-#else:
-#    print("continue")
- 
- 
-#print("letzte Anzahl gefundener Geraete:  " + str(last_status))
-
+    # request_data:
+    # requests data from the given controller and filters privacy
+    # and known mac addresses from the list
 
     def request_data(self, url, api_key, api_secret, privacy_file, known_file):
 
@@ -162,95 +147,60 @@ class MakerSpacePresenceAgent(object):
         return mac_data
             
  
- 
-###################
-#
-#
-#
-#   Write to csv
    
  
- 
-activity = open("/home/pi/msm-status/activity.csv", "a")
-activity.write(str(current_time) + "," + str(len(list_found_macs)))
-activity.write("\n")
-activity.close()
-shutil.copyfile('/home/pi/msm-status/activity.csv', '/var/www/html/activity.csv')
- 
- 
- 
-#
-#
-#
-####################
- 
-####################
-#
-#
-#   Build Graph
-#
+#plot_source = pd.read_csv("/home/pi/msm-status/activity.csv")
+#headers = ["time", "devicecount"]
+#plot_source_no_headers = pd.read_csv("/home/pi/msm-status/activity.csv", names = headers)
+#plot_source_no_headers.set_index("time", inplace= True)
+#plot_source_no_headers.plot()
+#plt.legend().set_visible(False)
+#plt.title("Heutige Aktivitäten")
+#plt.xlabel('Uhrzeit')
+#plt.ylabel('Aktive Geräte')
+#plt.savefig('/var/www/html/graph.png')
  
  
-plot_source = pd.read_csv("/home/pi/msm-status/activity.csv")
-headers = ["time", "devicecount"]
-plot_source_no_headers = pd.read_csv("/home/pi/msm-status/activity.csv", names = headers)
-plot_source_no_headers.set_index("time", inplace= True)
-plot_source_no_headers.plot()
-plt.legend().set_visible(False)
-plt.title("Heutige Aktivitäten")
-plt.xlabel('Uhrzeit')
-plt.ylabel('Aktive Geräte')
-plt.savefig('/var/www/html/graph.png')
-#
-#
-#
-#
-#
-#
-#####################
+#active_devices = len(list_found_macs)
  
+#dev_condition = ""
  
+#if active_devices == last_stat:
+#    dev_condition = "-"
+#elif active_devices > last_stat:
+#    dev_condition = "/"
+#elif active_devices < last_stat:
+#    dev_condition = "\\"
+#else:
+#    print("Kaputt")
  
-active_devices = len(list_found_macs)
- 
-dev_condition = ""
- 
-if active_devices == last_stat:
-    dev_condition = "-"
-elif active_devices > last_stat:
-    dev_condition = "/"
-elif active_devices < last_stat:
-    dev_condition = "\\"
-else:
-    print("Kaputt")
- 
-html = open("/var/www/html/index.html", "w")
-html_str_top = """
-<!DOCTYPE html>
-<html lang="de">
- <head>
-   <meta charset="utf-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>Titel</title>
- </head>
- <body>
-"""
-html_str_bottom = """
- </body>
-</html>
-"""
-html.write(html_str_top)
-html.write("last_server_status_pull: " + str(current_time) + " " + str(date)  + '\n')
-html.write("<br>" + '\n')
-html.write("updates_every: 10 minutes" + '\n')
-html.write("<br>" + '\n')
-html.write("active_devices: " + str(len(list_found_macs)) + '\n')
-html.write("<br>" + '\n')
-html.write("trending: " + str(dev_condition))
-html.write("<br>" + '\n')
-html.write('<img src="graph.png"')
-html.write(html_str_bottom)
-html.close()
+#html = open("/var/www/html/index.html", "w")
+#html_str_top = """
+#<!DOCTYPE html>
+#<html lang="de">
+# <head>
+#   <meta charset="utf-8" />
+#   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+#   <title>Titel</title>
+# </head>
+# <body>
+#"""
+#html_str_bottom = """
+# </body>
+#</html>
+#"""
+#html.write(html_str_top)
+#html.write("last_server_status_pull: " + str(current_time) + " " + str(date)  + '\n')
+#html.write("<br>" + '\n')
+#html.write("updates_every: 10 minutes" + '\n')
+#html.write("<br>" + '\n')
+#html.write("active_devices: " + str(len(list_found_macs)) + '\n')
+#html.write("<br>" + '\n')
+#html.write("trending: " + str(dev_condition))
+#html.write("<br>" + '\n')
+#html.write('<img src="graph.png"')
+#html.write(html_str_bottom)
+#html.close()
 
 if __name__ == "__main__":
     mspa = MakerSpacePresenceAgent()
