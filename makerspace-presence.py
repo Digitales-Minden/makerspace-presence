@@ -3,10 +3,6 @@
 import json
 import requests
 import time
-import pandas as pd
-import matplotlib.pyplot as plt
-import string
-import shutil
 import os
  
 class MakerSpacePresenceAgent(object):
