@@ -34,14 +34,24 @@ class MakerSpacePresenceAgent(object):
         # open activity file
         activity_filename = self.configuration["activity_file"]
 
-        if os.path.isfile(activity_filename):
-            try:
-                activity_file = open(activity_filename, "a")
-                activity_file.write(";".join((current_time,user_amount)))
+        try:
+            if os.path.isfile(activity_filename):
+                activity_file = open(activity_filename, "r+")
+                activity_content = activity_file.read()
+                lines = activity_content.split("\n")
+
+                if len(lines) > 0:
+                    time_stamp = float(lines[-2].split(";")[0])
+
+                    if time.strftime("%Y%m%d", time.localtime(time_stamp)) != time.strftime("%Y%m%d", time.localtime()):
+                        activity_file.truncate(0)
+
                 activity_file.close()
-            except IOError as e:
-                self.log_message(e)
-                                    
+
+            activity_file.open(activity_filename, "a")
+            activity_file.write(str(current_time) + ";" + str(user_amount))
+            activity_file.close()
+                                                                        
     
     def read_configuration(self, configuration):
 
