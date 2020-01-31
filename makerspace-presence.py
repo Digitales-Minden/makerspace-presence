@@ -40,16 +40,19 @@ class MakerSpacePresenceAgent(object):
                 activity_content = activity_file.read()
                 lines = activity_content.split("\n")
 
+                # is anything in this file?
                 if len(lines) > 0:
                     time_stamp = float(lines[-2].split(";")[0])
 
+                    # check if last timestamp is from today, if not trunc file
                     if time.strftime("%Y%m%d", time.localtime(time_stamp)) != time.strftime("%Y%m%d", time.localtime()):
                         activity_file.truncate(0)
 
                 activity_file.close()
 
+            # append new entry on file
             activity_file.open(activity_filename, "a")
-            activity_file.write(str(current_time) + ";" + str(user_amount))
+            activity_file.write(str(current_time) + ";" + str(user_amount) + "\n")
             activity_file.close()
                                                                         
     
